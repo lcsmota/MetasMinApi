@@ -7,7 +7,17 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+app.MapGet("/metas", async (AppDbContext db) =>
+    await db.Metas.AsNoTracking().ToListAsync());
+
+app.MapGet("/metas/{id}", async (AppDbContext db, int id) =>
+    await db.Metas.FindAsync(id)
+        is Meta meta
+            ? Results.Ok(meta)
+            : Results.NotFound("Meta não encontrada."));
+
+app.MapGet("/metas/concluidas", async (AppDbContext db) =>
+    await db.Metas.Where(opt => opt.IsConcluida == true).ToListAsync());
 
 app.MapPost("/metas", async (AppDbContext db, Meta meta) =>
 {
