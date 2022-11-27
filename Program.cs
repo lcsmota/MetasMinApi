@@ -26,6 +26,18 @@ app.MapPost("/metas", async (AppDbContext db, Meta meta) =>
     return Results.Created($"/metas/{meta.Id}", meta);
 });
 
+app.MapDelete("metas/{id}", async (AppDbContext db, int id) =>
+{
+    if (await db.Metas.FindAsync(id) is Meta meta)
+    {
+        db.Metas.Remove(meta);
+        await db.SaveChangesAsync();
+        return Results.NoContent();
+    }
+
+    return Results.NotFound("Meta não encontrada.");
+});
+
 app.Run();
 
 record Meta(int Id, string? Nome, bool IsConcluida);
