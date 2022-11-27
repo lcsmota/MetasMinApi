@@ -26,6 +26,18 @@ app.MapPost("/metas", async (AppDbContext db, Meta meta) =>
     return Results.Created($"/metas/{meta.Id}", meta);
 });
 
+app.MapPut("/metas/{id}", async (AppDbContext db, int id, Meta inputMeta) =>
+{
+    var meta = await db.Metas.FindAsync(id);
+    if (meta is null) return Results.NotFound("Meta não encontrada.");
+
+    meta.Nome = inputMeta.Nome;
+    meta.IsConcluida = inputMeta.IsConcluida;
+
+    await db.SaveChangesAsync();
+    return Results.NoContent();
+});
+
 app.MapDelete("metas/{id}", async (AppDbContext db, int id) =>
 {
     if (await db.Metas.FindAsync(id) is Meta meta)
@@ -40,7 +52,12 @@ app.MapDelete("metas/{id}", async (AppDbContext db, int id) =>
 
 app.Run();
 
-record Meta(int Id, string? Nome, bool IsConcluida);
+class Meta
+{
+    public int Id { get; set; }
+    public string? Nome { get; set; }
+    public bool IsConcluida { get; set; }
+}
 
 class AppDbContext : DbContext
 {
