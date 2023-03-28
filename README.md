@@ -39,6 +39,12 @@
 | :---------- | :--------- | :------------------------------------------ |
 | `id`      | `int` | **Obrigatório**. O ID da meta que você quer visualizar|
 
+#### Retorna todas as metas concluídas
+
+```http
+  GET https://localhost:7168/metas/concluidas
+```
+
 #
 #### Cria uma meta
 
