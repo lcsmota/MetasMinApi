@@ -78,7 +78,7 @@
   POST https://localhost:7168/metas
 ```
 📨  **body:**
-```
+```json
 {
    "nome": "Testando Minimal Api",
    "isConcluida": true
@@ -86,7 +86,7 @@
 ```
 
 🧾  **response:**
-```
+```json
 {
    "id": 1,
    "nome": "Testando Minimal Api",
@@ -114,7 +114,7 @@
 | `id`      | `int` | **Obrigatório**. O ID da meta que você quer atualizar|
 
 📨  **body:**
-```
+```json
 {
    "nome": "Testando Minimal Api",
    "isConcluida": true
